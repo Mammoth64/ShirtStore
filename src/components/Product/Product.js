@@ -1,20 +1,26 @@
 import styles from './Product.module.scss';
 import clsx from 'clsx';
 import Button from '../Button/Button';
+import propTypes from 'prop-types';
+import { useState } from 'react';
 
-const Product = props => {
+const Product = ({id, name, title, basePrice, colors, sizes, ...props}) => {
+  const [currentColor, setCurrentColor] = useState(colors[0]);
+  const [currentSize, setCurrentSize] = useState(sizes[0].name);
+  console.log(currentSize);
+  console.log(currentColor);
   return (
     <article className={styles.product}>
       <div className={styles.imageContainer}>
         <img 
           className={styles.image}
-          alt="Kodilla shirt"
-          src={`${process.env.PUBLIC_URL}/images/products/shirt-kodilla--black.jpg`} />
+          alt={title}
+          src={`${process.env.PUBLIC_URL}/images/products/shirt-${name}--${currentColor}.jpg`} />
       </div>
       <div>
         <header>
-          <h2 className={styles.name}>Kodilla shirt</h2>
-          <span className={styles.price}>Price: 20$</span>
+          <h2 className={styles.name}>{title}</h2>
+          <span className={styles.price}>Price: {basePrice}$</span>
         </header>
         <form>
           <div className={styles.sizes}>
@@ -42,5 +48,14 @@ const Product = props => {
     </article>
   )
 };
+
+Product.propTypes = {
+  id: propTypes.number.isRequired,
+  name: propTypes.string,
+  title: propTypes.string,
+  basePrice: propTypes.number,
+  colors: propTypes.array,
+  sizes: propTypes.array
+}
 
 export default Product;
