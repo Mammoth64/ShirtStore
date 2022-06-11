@@ -10,6 +10,25 @@ const Product = ({ id, name, title, basePrice, colors, sizes, ...props }) => {
 
   const prepareColorClassName = color => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
+  };
+
+  const getPrice = () => {
+  const getSize = sizes.find( ({ name }) => name === currentSize);
+  return getSize.additionalPrice + basePrice;
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const summary = [
+        'Name: ' + title,
+        'Price: ' + getPrice(),
+        'Size: ' + currentSize,
+        'Color: ' + currentColor,
+    ]
+    console.log('Summary');
+    console.log('===============');
+    summary.map(i => console.log(i)); 
   }
 
   return (
@@ -23,9 +42,9 @@ const Product = ({ id, name, title, basePrice, colors, sizes, ...props }) => {
       <div>
         <header>
           <h2 className={styles.name}>{title}</h2>
-          <span className={styles.price}>Price: {basePrice}$</span>
+          <span className={styles.price}>Price: {getPrice()}$</span>
         </header>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={styles.sizes}>
             <h3 className={styles.optionLabel}>Sizes</h3>
             <ul className={styles.choices}>
